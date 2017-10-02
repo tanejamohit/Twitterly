@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in HomeViewController.loadHomeScreen(useOffset:):HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LoginViewController.onLoginButton(_:):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "requestToken?.token">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TweetDetailViewController.tweet.didset:TweetDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Tweet.init(tweetData:):Tweet.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tweetData[&quot;is_quoted_status&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

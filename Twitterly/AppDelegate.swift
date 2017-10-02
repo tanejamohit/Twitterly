@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    // Skip login screen if there is already a logged in user.
+    if TwitterUser.currentUser != nil {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+      window?.rootViewController = vc
+    }
+    
+    NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userLoggedOut"), object: nil, queue: OperationQueue.main) { (notification:Notification) in
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let vc = storyboard.instantiateInitialViewController()
+      self.window?.rootViewController = vc
+    }
     return true
   }
 
@@ -41,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
 
-
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    TwitterClient.sharedInstance?.handleOpenUrl(url: url)    
+    return true
+  }
 }
 
