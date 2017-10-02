@@ -30,6 +30,7 @@ The following **additional** features are implemented:
 - [x] Tweet limit shows number of characters left to type instead of number of characters typed.
 - [x] Tweet detail view shows if you have previously favorited or retweeted a tweet.
 - [x] Load high resolution image for profile picture instead of the default low resolution image.
+- [x] Use animation while reloading table view for infinite scrolling
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
