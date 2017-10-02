@@ -42,7 +42,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 Here's a walkthrough of implemented user stories:
 
 ### Video Walkthrough for all user stories
-<img src='http://i.imgur.com/lP6bwGY.gif' title='Walkthrough for all User Stories' width='200' alt='Walkthrough for all User Stories' />
+<img src='http://i.imgur.com/KAZTWMB.gif' title='Walkthrough for all User Stories' width='200' alt='Walkthrough for all User Stories' />
 
 ## License
 
