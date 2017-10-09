@@ -48,6 +48,39 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
   }
 
+  func getMentionsTimeline(maxId: String?, onDataLoad:@escaping (_ success:Bool, _ error:Error?, _ result:[Dictionary<String, Any>]?)->Void) {
+    
+    var parameters:[String:Any]? = nil
+    if maxId != nil {
+      parameters = ["max_id": maxId! ]
+    }
+    self.get("/1.1/statuses/mentions_timeline.json", parameters: parameters, progress: nil, success: { (task: URLSessionDataTask, response:Any?) in
+      // Success
+      onDataLoad(true, nil, response as? [Dictionary])
+    }) { (task:URLSessionDataTask?, error:Error) in
+      // Failure
+      onDataLoad(false, error, nil)
+      print("error fetching mentions timeline \(error.localizedDescription)")
+    }
+  }
+
+  func getUserTimeline(userScreenName: String?, maxId: String?, onDataLoad:@escaping (_ success:Bool, _ error:Error?, _ result:[Dictionary<String, Any>]?)->Void) {
+    
+    var parameters:[String:Any]? = nil
+    parameters = ["screen_name": userScreenName!]
+    if maxId != nil {
+      parameters!["max_id"] = maxId!
+    }
+    self.get("/1.1/statuses/user_timeline.json", parameters: parameters, progress: nil, success: { (task: URLSessionDataTask, response:Any?) in
+      // Success
+      onDataLoad(true, nil, response as? [Dictionary])
+    }) { (task:URLSessionDataTask?, error:Error) in
+      // Failure
+      onDataLoad(false, error, nil)
+      print("error fetching user timeline \(error.localizedDescription)")
+    }
+  }
+
   func login(onSuccess:@escaping ()->Void, onFailure:@escaping (_ error: Error) -> Void) {
     self.loginSuccess = onSuccess
     self.loginFailure = onFailure
@@ -68,13 +101,14 @@ class TwitterClient: BDBOAuth1SessionManager {
 
   }
 
-  func handleOpenUrl(url: URL) {
+  func handleOpenUrl(url: URL, onSuccessfulLogin:@escaping ()->Void) {
     let requestToken: BDBOAuth1Credential = BDBOAuth1Credential(queryString: url.query)
     
     self.fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken:requestToken, success: {(accessToken: BDBOAuth1Credential?) in
       self.getCurrentUser(onDataLoad: { (success:Bool, error:Error?, userData: Dictionary<String, Any>?) in
         if success {
           TwitterUser.currentUser = TwitterUser(userData: userData!)
+          onSuccessfulLogin()
           self.loginSuccess?()
         } else {
           self.loginFailure?(error!)

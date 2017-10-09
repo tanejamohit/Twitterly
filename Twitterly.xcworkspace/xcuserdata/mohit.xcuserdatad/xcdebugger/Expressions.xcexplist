@@ -6,6 +6,14 @@
          contextName = "closure #1 in HomeViewController.loadHomeScreen(useOffset:):HomeViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "ProfileViewController.viewDidLoad():ProfileViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.navigationController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in LoginViewController.onLoginButton(_:):LoginViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -15,6 +23,9 @@
       </ContextState>
       <ContextState
          contextName = "TweetDetailViewController.tweet.didset:TweetDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ProfileViewController.user.didset:ProfileViewController.swift">
       </ContextState>
       <ContextState
          contextName = "Tweet.init(tweetData:):Tweet.swift">

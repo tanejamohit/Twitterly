@@ -17,6 +17,11 @@
 		E43BF4A91F7B755E00F30005 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43BF4A81F7B755E00F30005 /* LoginViewController.swift */; };
 		E45032E21F80B5FA00BA06D8 /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45032E11F80B5FA00BA06D8 /* NewTweetViewController.swift */; };
 		E45032EA1F80E2B300BA06D8 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45032E91F80E2B300BA06D8 /* InfiniteScrollActivityView.swift */; };
+		E459F9F01F8ABF8300B2D309 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459F9EF1F8ABF8300B2D309 /* ImageExtensions.swift */; };
+		E459F9F21F8AC5C600B2D309 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E459F9F11F8AC5C600B2D309 /* ProfileViewController.swift */; };
+		E47454DA1F8753E8005DAC9E /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47454D91F8753E8005DAC9E /* HamburgerViewController.swift */; };
+		E47454F51F8966F7005DAC9E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47454F41F8966F7005DAC9E /* MenuViewController.swift */; };
+		E47454F71F89FD84005DAC9E /* TweetViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E47454F61F89FD84005DAC9E /* TweetViewCell.xib */; };
 		E4C58E4B1F7CC9D000AEE640 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C58E4A1F7CC9D000AEE640 /* Tweet.swift */; };
 		E4C58E4E1F7CCA0900AEE640 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C58E4D1F7CCA0900AEE640 /* TwitterUser.swift */; };
 		E4C58E511F7CCA4B00AEE640 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C58E501F7CCA4B00AEE640 /* TwitterClient.swift */; };
@@ -37,6 +42,11 @@
 		E43BF4A81F7B755E00F30005 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E45032E11F80B5FA00BA06D8 /* NewTweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
 		E45032E91F80E2B300BA06D8 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InfiniteScrollActivityView.swift; path = "Twitterly/New Group/InfiniteScrollActivityView.swift"; sourceTree = SOURCE_ROOT; };
+		E459F9EF1F8ABF8300B2D309 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
+		E459F9F11F8AC5C600B2D309 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E47454D91F8753E8005DAC9E /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
+		E47454F41F8966F7005DAC9E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		E47454F61F89FD84005DAC9E /* TweetViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TweetViewCell.xib; sourceTree = "<group>"; };
 		E4C58E4A1F7CC9D000AEE640 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		E4C58E4D1F7CCA0900AEE640 /* TwitterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		E4C58E501F7CCA4B00AEE640 /* TwitterClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
@@ -94,17 +104,27 @@
 		E43BF4951F7B740700F30005 /* Twitterly */ = {
 			isa = PBXGroup;
 			children = (
+				E459F9EE1F8ABF4C00B2D309 /* Extensions */,
 				E49619971F80E7AB00D3CC0C /* Views */,
 				E4C58EE81F805C6A00AEE640 /* ViewControllers */,
 				E4C58E4F1F7CCA2000AEE640 /* API */,
 				E4C58E4C1F7CC9E100AEE640 /* Model */,
 				E43BF4961F7B740700F30005 /* AppDelegate.swift */,
 				E43BF49A1F7B740700F30005 /* Main.storyboard */,
+				E47454F61F89FD84005DAC9E /* TweetViewCell.xib */,
 				E43BF49D1F7B740700F30005 /* Assets.xcassets */,
 				E43BF49F1F7B740700F30005 /* LaunchScreen.storyboard */,
 				E43BF4A21F7B740700F30005 /* Info.plist */,
 			);
 			path = Twitterly;
+			sourceTree = "<group>";
+		};
+		E459F9EE1F8ABF4C00B2D309 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E459F9EF1F8ABF8300B2D309 /* ImageExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E49619971F80E7AB00D3CC0C /* Views */ = {
@@ -137,10 +157,13 @@
 		E4C58EE81F805C6A00AEE640 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E459F9F11F8AC5C600B2D309 /* ProfileViewController.swift */,
 				E43BF4A81F7B755E00F30005 /* LoginViewController.swift */,
 				E4C58EE91F8062BF00AEE640 /* HomeViewController.swift */,
 				E45032E11F80B5FA00BA06D8 /* NewTweetViewController.swift */,
 				E40A59541F80F2EC0098D2EF /* TweetDetailViewController.swift */,
+				E47454D91F8753E8005DAC9E /* HamburgerViewController.swift */,
+				E47454F41F8966F7005DAC9E /* MenuViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -209,6 +232,7 @@
 			files = (
 				E43BF4A11F7B740700F30005 /* LaunchScreen.storyboard in Resources */,
 				E43BF49E1F7B740700F30005 /* Assets.xcassets in Resources */,
+				E47454F71F89FD84005DAC9E /* TweetViewCell.xib in Resources */,
 				E43BF49C1F7B740700F30005 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,11 +304,15 @@
 				E4C58E4E1F7CCA0900AEE640 /* TwitterUser.swift in Sources */,
 				E43BF4A91F7B755E00F30005 /* LoginViewController.swift in Sources */,
 				E43BF4971F7B740700F30005 /* AppDelegate.swift in Sources */,
+				E459F9F21F8AC5C600B2D309 /* ProfileViewController.swift in Sources */,
 				E4C58E511F7CCA4B00AEE640 /* TwitterClient.swift in Sources */,
 				E4C58E4B1F7CC9D000AEE640 /* Tweet.swift in Sources */,
 				E45032E21F80B5FA00BA06D8 /* NewTweetViewController.swift in Sources */,
+				E47454F51F8966F7005DAC9E /* MenuViewController.swift in Sources */,
 				E40A59531F80E8A00098D2EF /* TweetViewCell.swift in Sources */,
+				E459F9F01F8ABF8300B2D309 /* ImageExtensions.swift in Sources */,
 				E4C58EEA1F8062BF00AEE640 /* HomeViewController.swift in Sources */,
+				E47454DA1F8753E8005DAC9E /* HamburgerViewController.swift in Sources */,
 				E40A59551F80F2EC0098D2EF /* TweetDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +454,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R737QPTNBS;
 				INFOPLIST_FILE = Twitterly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mohit.Twitterly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,6 +471,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R737QPTNBS;
 				INFOPLIST_FILE = Twitterly/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mohit.Twitterly;
 				PRODUCT_NAME = "$(TARGET_NAME)";

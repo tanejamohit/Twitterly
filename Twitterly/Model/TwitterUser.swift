@@ -12,8 +12,12 @@ import AFNetworking
 class TwitterUser: NSObject {
   var name: String
   var profilePic:URL
+  var backgroundProfilePic:URL
   var screenName: String
   var id: String
+  var bio: String
+  var numFollowers: Int
+  var numFollowing: Int
   var dictionary: Dictionary<String, Any>
   
   static var UserLogoutNotification = Notification(name: NSNotification.Name(rawValue: "userLoggedOut"), object: nil)
@@ -54,8 +58,14 @@ class TwitterUser: NSObject {
       profilePicUrl = profilePicUrl.replacingOccurrences(of: "_normal", with: "")
     }
     profilePic = URL(string:profilePicUrl)!
+    let backgroundPicUrl: String = userData["profile_background_image_url_https"] as? String ?? ""
+    backgroundProfilePic = URL(string:backgroundPicUrl)!
+
     screenName = userData["screen_name"] as? String ?? ""
-    
+    numFollowers = userData["followers_count"] as? Int ?? 0
+    numFollowing = userData["friends_count"] as? Int ?? 0
+    bio = userData["description"] as? String ?? ""
+
     dictionary = userData
   }
   

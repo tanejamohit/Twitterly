@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum TimelineType {
+  case Home
+  case Mentions
+}
+
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, NewTweetDelegate {
   
   @IBOutlet weak var tableView: UITableView!
@@ -16,6 +21,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
   var isMoreDataLoading = false
   var loadingMoreView:InfiniteScrollActivityView?
   var refreshControl: UIRefreshControl = UIRefreshControl()
+  var timelineType: TimelineType = .Home
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,6 +44,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
     tableView.insertSubview(refreshControl, at: 0)
     
+    // Register the nib for table view cell
+    tableView.register(UINib.init(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
   }
   
   override func didReceiveMemoryWarning() {
@@ -45,33 +53,46 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // Dispose of any resources that can be recreated.
   }
   
-  func loadHomeScreen(useOffset: Bool) {
+  private func loadHomeScreen(useOffset: Bool) {
     var maxId: String? = nil
     if useOffset {
       maxId = tweets[tweets.count - 1].id
     }
-    // Request home timeline
-    TwitterClient.sharedInstance?.getHomeTimeline(maxId: maxId, onDataLoad: { (success:Bool, error:Error?, twitterData:[Dictionary<String, Any>]?) in
-      if(success) {
-        // Skip the first tweet, as it is repeated
-        print("loaded \(twitterData!.count) tweets")
-        if useOffset {
-        self.tweets.append(contentsOf: Tweet.tweetsFromDictionaries(dictionaries: twitterData ?? [])[1...])
-        } else {
-          self.tweets = Tweet.tweetsFromDictionaries(dictionaries: twitterData ?? [])
-        }
-        self.tableView.reloadData()
-        self.isMoreDataLoading = false
-        self.loadingMoreView!.stopAnimating()
-        self.refreshControl.endRefreshing();
-        print("total number of tweets \(self.tweets.count)")
-      } else {
-        self.loadingMoreView!.stopAnimating()
-        self.refreshControl.endRefreshing();
-        print("Failed to load home timeline")
-      }
-    })
     
+    if timelineType == .Home {
+      // Request home timeline
+      TwitterClient.sharedInstance?.getHomeTimeline(maxId: maxId, onDataLoad: { (success:Bool, error:Error?, twitterData:[Dictionary<String, Any>]?) in
+        self.onTweetsLoaded(useOffset: useOffset, success: success, error: error, twitterData: twitterData)
+      })
+    }
+    else if timelineType == .Mentions {
+      // Request home timeline
+      TwitterClient.sharedInstance?.getMentionsTimeline(maxId: maxId, onDataLoad: { (success:Bool, error:Error?, twitterData:[Dictionary<String, Any>]?) in
+        self.onTweetsLoaded(useOffset: useOffset, success: success, error: error, twitterData: twitterData)
+      })
+    }
+  }
+  
+  private func onTweetsLoaded(useOffset: Bool, success:Bool, error:Error?, twitterData:[Dictionary<String, Any>]?) {
+    if(success) {
+      // Skip the first tweet, as it is repeated
+      print("loaded \(twitterData!.count) tweets")
+      if useOffset {
+        self.tweets.append(contentsOf: Tweet.tweetsFromDictionaries(dictionaries: twitterData ?? [])[1...])
+      } else {
+        self.tweets = Tweet.tweetsFromDictionaries(dictionaries: twitterData ?? [])
+      }
+      //self.tableView.reloadData()
+      self.tableView.reloadSections([0], with: .automatic)
+      self.isMoreDataLoading = false
+      self.loadingMoreView!.stopAnimating()
+      self.refreshControl.endRefreshing();
+      print("total number of tweets \(self.tweets.count)")
+    } else {
+      self.loadingMoreView!.stopAnimating()
+      self.refreshControl.endRefreshing();
+      print("Failed to load home timeline")
+    }
   }
   
   // Function called when user tries to refresh
@@ -81,14 +102,29 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   
   // MARK:- Table View functions
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tweets.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    /*let cell = tableView.dequeueReusableCell(withIdentifier:"TweetViewCell", for: indexPath) as! TweetViewCell
+    if (!cell)
+    {
+      [tableView registerNib:[UINib nibWithNibName:@"MyCustomCell" bundle:nil] forCellReuseIdentifier:@"myCell"];
+      cell = [tableView dequeueReusableCellWithIdentifier:@"myCell"];
+    }*/
+
     let cell = tableView.dequeueReusableCell(withIdentifier: "TweetViewCell", for: indexPath) as! TweetViewCell
     cell.tweet = tweets[indexPath.row]
+    //setup tap gesture recognizer
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadProfileView(_:)));
+    cell.userProfilePic.isUserInteractionEnabled = true
+    cell.userProfilePic.addGestureRecognizer(tapGestureRecognizer)
     return cell
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.performSegue(withIdentifier: "tweetDetailSegue", sender: tableView.cellForRow(at: indexPath))
   }
   
   @IBAction func onLogout(_ sender: Any) {
@@ -97,6 +133,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   @IBAction func unwindToHomeScreen(segue: UIStoryboardSegue) {
     
+  }
+  
+  @objc func loadProfileView(_ sender:UITapGestureRecognizer) {
+    self.performSegue(withIdentifier: "showProfileView", sender: sender.view?.superview?.superview)
   }
   
   // MARK:- Scroll view functions
@@ -121,7 +161,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
   }
   
-  func loadMoreData() {
+  private func loadMoreData() {
     loadHomeScreen(useOffset: true)
   }
   
@@ -138,6 +178,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
       let indexPath = tableView.indexPath(for: cell)
       let tweetDetailViewController = segue.destination as! TweetDetailViewController
       tweetDetailViewController.tweet = tweets[indexPath!.row];
+    } else if segue.identifier == "showProfileView" {
+      let cell = sender as! UITableViewCell
+      let indexPath = tableView.indexPath(for: cell)
+      let profileViewController = segue.destination as! ProfileViewController
+      profileViewController.user = tweets[indexPath!.row].user;
     }
   }
   

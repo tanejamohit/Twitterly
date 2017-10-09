@@ -26,7 +26,6 @@ class LoginViewController: UIViewController {
     TwitterClient.sharedInstance?.login(onSuccess: {
       // Transition to home timeline
       print("Login Successful");
-      self.performSegue(withIdentifier: "onLoginSuccess", sender: nil)
     }, onFailure: { (error:Error) in
       print("Error while logging in \(error.localizedDescription)")
     })

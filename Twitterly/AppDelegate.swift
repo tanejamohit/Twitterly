@@ -16,13 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    
     // Skip login screen if there is already a logged in user.
     if TwitterUser.currentUser != nil {
-      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-      let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-      window?.rootViewController = vc
+      userLoggedSuccessfully()
     }
-    
+
+    // Logout user
     NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userLoggedOut"), object: nil, queue: OperationQueue.main) { (notification:Notification) in
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
       let vc = storyboard.instantiateInitialViewController()
@@ -31,6 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
+  private func userLoggedSuccessfully() {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerController") as! HamburgerViewController
+    let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+    
+    menuViewController.hamburgerViewController = hamburgerViewController
+    hamburgerViewController.menuViewController = menuViewController
+    window?.rootViewController = hamburgerViewController
+  }
+  
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -54,7 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    TwitterClient.sharedInstance?.handleOpenUrl(url: url)    
+    TwitterClient.sharedInstance?.handleOpenUrl(url: url, onSuccessfulLogin: {
+      self.userLoggedSuccessfully()
+    })
     return true
   }
 }

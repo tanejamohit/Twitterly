@@ -18,6 +18,7 @@ class TweetViewCell: UITableViewCell {
   var tweet: Tweet? {
     didSet {
       userProfilePic.setImageWith(tweet?.user?.profilePic ?? URL(string:"")!)
+      userProfilePic.setRadius()
       userName.text = tweet?.user?.name
       userScreenName.text = "@\(tweet?.user?.screenName ?? "")"
       tweetText.text = tweet?.text
@@ -35,5 +36,9 @@ class TweetViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
   
+  @IBAction func profilePicClicked(_ sender: UITapGestureRecognizer) {
+    //self.performSegue(withIdentifier: "tweetDetailSegue", sender: tableView.cellForRow(at: indexPath))
+  }
+
 }
 
